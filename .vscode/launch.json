@@ -1,0 +1,63 @@
+{
+  // Use IntelliSense to learn about possible attributes.
+  // Hover to view descriptions of existing attributes.
+  // For more information, visit: https://go.microsoft.com/fwlink/?Linkid=8303
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Redis Server Run",
+      "type": "cppdbg",
+      "request": "launch",
+      "program": "${workspaceFolder}/src/redis-server", // 可执行程序位置，这里我们启动 redis 服务端
+      "args": [
+        // "${workspaceFolder}/redis.conf"
+      ],
+      "stopAtEntry": false,
+      "cwd": "${fileDirname}",
+      "environment": [],
+      "externalConsole": false,
+      "MIMode": "gdb",
+      // "miDebuggerPath": "/usr/bin/gdb", // Path to gdb
+      "setupCommands": [
+        // {
+        //   "description": "Enable pretty-printing for gdb",
+        //   "text": "-enable-pretty-printing",
+        //   "ignoreFailures": true
+        // }
+        // {
+        //   "description": "Set Disassembly Flavor to Intel",
+        //   "text": "-gdb-set disassembly-flavor intel",
+        //   "ignoreFailures": true
+        // }
+      ],
+      "preLaunchTask": "Build"
+    },
+    {
+      "name": "Redis Server Attach",
+      "type": "cppdbg",
+      "request": "attach",
+      "processId": "${input:redisPID}",
+      "program": "${workspaceFolder}/src/redis-server",
+      "args": [],
+      "stopAtEntry": false,
+      "cwd": "${fileDirname}",
+      "environment": [],
+      "externalConsole": false,
+      "MIMode": "gdb",
+      "preLaunchTask": "writeRedisPID",
+      "subProcess": true,
+      "justMyCode": true, // 仅调试用户代码, 而不调试系统代码.
+      "redirectOutput": true,
+    }
+  ],
+  "inputs": [
+    {
+      "id": "redisPID",
+      "type": "command",
+      "command": "extension.commandvariable.file.content", // 指定了获取文件内容的命令.
+      "args": {
+        "fileName": "/tmp/redis.pid"
+      }
+    }
+  ]
+}
